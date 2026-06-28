@@ -476,6 +476,13 @@ func buildArgs(req *Request) []string {
 			}
 			return args
 		}
+		if req.Stop {
+			args = append(args, "--stop")
+			if req.RunDataDir != "" {
+				args = append(args, "--data-dir", req.RunDataDir)
+			}
+			return args
+		}
 		if req.Status {
 			args = append(args, "--status")
 			if req.RunDataDir != "" {

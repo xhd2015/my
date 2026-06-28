@@ -69,6 +69,53 @@ func runLocalStatus(dataDir, port string) int {
 	return 0
 }
 
+func runLocalStop(dataDir string) int {
+	if dataDir == "" {
+		fmt.Fprintf(os.Stderr, "error: --data-dir is required\n")
+		return 1
+	}
+
+	absPath, err := resolvePath(dataDir)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error: %v\n", err)
+		return 1
+	}
+
+	running, err := localGatewayRunning(absPath)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error: %v\n", err)
+		return 1
+	}
+	if !running {
+		fmt.Fprintf(os.Stderr, "warning: local gateway is not running\n")
+		return 0
+	}
+
+	token, err := resolveToken(absPath)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error: %v\n", err)
+		return 1
+	}
+
+	if !ensureOpenclawAvailable() {
+		return 1
+	}
+
+	if err := openclawExecPreviewed(absPath, token, "gateway", "stop"); err != nil {
+		if exitErr, ok := err.(*exec.ExitError); ok {
+			return exitErr.ExitCode()
+		}
+		fmt.Fprintf(os.Stderr, "error: %v\n", err)
+		return 1
+	}
+	if err := removeGatewayBookkeeping(absPath); err != nil {
+		fmt.Fprintf(os.Stderr, "error: %v\n", err)
+		return 1
+	}
+	fmt.Println("Stopped local gateway")
+	return 0
+}
+
 func runLocalRestart(dataDir, port string) int {
 	if dataDir == "" {
 		fmt.Fprintf(os.Stderr, "error: --data-dir is required\n")

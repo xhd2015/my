@@ -21,6 +21,7 @@ Lifecycle:
                [--data-dir <path>] [--port PORT]
   --restart    Stop (if running) and start gateway detached
                [--data-dir <path>] [--port PORT]
+  --stop       Stop local gateway [--data-dir <path>]
   --status     Show gateway URLs and info [--data-dir <path>] [--port PORT]
 
 Settings:
@@ -139,6 +140,7 @@ func runLocal(args []string) int {
 		dataDir         string
 		port            string
 		status          bool
+		stop            bool
 		restart         bool
 		importLocalGrok bool
 		testSlack       bool
@@ -149,6 +151,7 @@ func runLocal(args []string) int {
 		String("--data-dir", &dataDir).
 		String("--port", &port).
 		Bool("--status", &status).
+		Bool("--stop", &stop).
 		Bool("--restart", &restart).
 		Bool("--import-local-grok", &importLocalGrok).
 		Bool("--test-slack", &testSlack).
@@ -171,6 +174,9 @@ func runLocal(args []string) int {
 
 	actionCount := 0
 	if status {
+		actionCount++
+	}
+	if stop {
 		actionCount++
 	}
 	if restart {
@@ -220,6 +226,8 @@ func runLocal(args []string) int {
 	switch {
 	case status:
 		return runLocalStatus(dataDir, port)
+	case stop:
+		return runLocalStop(dataDir)
 	case restart:
 		return runLocalRestart(dataDir, port)
 	case importLocalGrok:

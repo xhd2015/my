@@ -64,6 +64,7 @@ func printLocalGatewayCommands(port string) {
 	fmt.Println()
 	fmt.Println("Commands:")
 	fmt.Printf("  my openclaw run --status --port %s\n", port)
+	fmt.Println("  my openclaw run --stop")
 	fmt.Printf("  my openclaw run --restart --port %s\n", port)
 	fmt.Println("  openclaw gateway status")
 	fmt.Println("  openclaw gateway stop")

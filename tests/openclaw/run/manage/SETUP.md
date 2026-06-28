@@ -1,6 +1,6 @@
 # Scenario
 
-**Feature**: `my openclaw run` management actions (`--status`, `--restart`, `--import-local-grok`, `--test-slack`).
+**Feature**: `my openclaw run` management actions (`--status`, `--stop`, `--restart`, `--import-local-grok`, `--test-slack`).
 
 ```
 my openclaw run --<action> -> openclaw stub gateway state -> stdout/stderr
