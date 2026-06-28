@@ -4,10 +4,11 @@
 - Stdout contains dashboard URL `http://127.0.0.1:18789/`.
 - Stdout contains `podman logs -f openclaw-gateway`.
 - Podman `run` includes data-dir mount, workspace mount, token env, `--bind lan`, and image `my-openclaw:local`.
+- Stderr previews `podman run` command.
 
 ## Side Effects
 
-- `podman stop` and `podman rm` called for default container name.
+- No `podman stop` or `podman rm` before start when container is not already running.
 
 ## Errors
 
@@ -34,6 +35,10 @@ func Assert(t *testing.T, req *Request, resp *Response, err error) {
 		t.Fatalf("stdout missing logs hint:\n%s", resp.Stdout)
 	}
 
+	if !strings.Contains(resp.Stderr, "$ podman run") {
+		t.Fatalf("stderr missing command preview:\n%s", resp.Stderr)
+	}
+
 	var runLine string
 	for _, call := range resp.PodmanCalls {
 		if strings.Contains(call, "podman run") {
@@ -57,11 +62,8 @@ func Assert(t *testing.T, req *Request, resp *Response, err error) {
 			t.Fatalf("podman run missing %q in:\n%s", want, runLine)
 		}
 	}
-	if !podmanCallsContain(resp.PodmanCalls, "podman stop openclaw-gateway") {
-		t.Fatalf("expected podman stop, got:\n%v", resp.PodmanCalls)
-	}
-	if !podmanCallsContain(resp.PodmanCalls, "podman rm openclaw-gateway") {
-		t.Fatalf("expected podman rm, got:\n%v", resp.PodmanCalls)
+	if podmanCallsContain(resp.PodmanCalls, "podman stop openclaw-gateway") {
+		t.Fatalf("unexpected podman stop on fresh start:\n%v", resp.PodmanCalls)
 	}
 }
 ```

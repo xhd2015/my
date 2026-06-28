@@ -1,0 +1,7 @@
+{
+  "gateway": {
+    "auth": {
+      "token": "json-gateway-token"
+    }
+  }
+}

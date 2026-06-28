@@ -1,0 +1,18 @@
+{
+  "agent:main:main": {
+    "sessionId": "fixture-main-session",
+    "sessionFile": "agents/main/sessions/fixture-main-session.jsonl",
+    "modelProvider": "compass",
+    "model": "gpt-5-mini-2025-08-07",
+    "providerOverride": "compass",
+    "modelOverride": "gpt-5-mini-2025-08-07",
+    "modelOverrideSource": "user",
+    "liveModelSwitchPending": true
+  },
+  "agent:main:dashboard:fixture-dashboard": {
+    "sessionId": "fixture-dashboard-session",
+    "sessionFile": "agents/main/sessions/fixture-dashboard-session.jsonl",
+    "modelProvider": "compass",
+    "model": "gpt-5-mini-2025-08-07"
+  }
+}

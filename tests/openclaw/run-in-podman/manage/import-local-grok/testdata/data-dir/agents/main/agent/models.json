@@ -1,0 +1,18 @@
+{
+  "providers": {
+    "compass": {
+      "baseUrl": "http://compass.example.com/v1",
+      "apiKey": "compass-test-key",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "gpt-5-mini-2025-08-07",
+          "name": "GPT-5 Mini",
+          "input": ["text"],
+          "contextWindow": 128000,
+          "maxTokens": 16384
+        }
+      ]
+    }
+  }
+}

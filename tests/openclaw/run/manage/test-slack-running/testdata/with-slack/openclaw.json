@@ -1,0 +1,15 @@
+{
+  "gateway": {
+    "auth": {
+      "token": "json-gateway-token"
+    }
+  },
+  "channels": {
+    "slack": {
+      "enabled": true,
+      "botToken": "xoxb-fixture-slack-token",
+      "appToken": "xapp-fixture-app-token",
+      "testTarget": "C01234567"
+    }
+  }
+}
