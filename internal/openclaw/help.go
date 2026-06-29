@@ -13,6 +13,7 @@ Usage: my <command> [options]
 
 Commands:
   openclaw    OpenClaw data-dir registry and Podman launcher
+  opencode    OpenCode auth import and utilities
 
 Run 'my <command> --help' for command-specific help.
 `

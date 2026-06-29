@@ -16,7 +16,7 @@ const (
 	xaiDefaultProfile = "xai:default"
 )
 
-type grokAuthEntry struct {
+type GrokAuthEntry struct {
 	Key          string `json:"key"`
 	RefreshToken string `json:"refresh_token"`
 	ExpiresAt    string `json:"expires_at"`
@@ -47,7 +47,7 @@ type openclawAuthProfileCredential struct {
 	ClientID      string `json:"clientId,omitempty"`
 }
 
-func resolveGrokAuthPath() (string, error) {
+func ResolveGrokAuthPath() (string, error) {
 	if path := os.Getenv("MY_GROK_AUTH_PATH"); path != "" {
 		return path, nil
 	}
@@ -58,21 +58,21 @@ func resolveGrokAuthPath() (string, error) {
 	return filepath.Join(home, ".grok", "auth.json"), nil
 }
 
-func loadGrokAuthEntry(path string) (grokAuthEntry, error) {
+func LoadGrokAuthEntry(path string) (GrokAuthEntry, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return grokAuthEntry{}, fmt.Errorf("grok auth file not found: %s", path)
+			return GrokAuthEntry{}, fmt.Errorf("grok auth file not found: %s", path)
 		}
-		return grokAuthEntry{}, err
+		return GrokAuthEntry{}, err
 	}
 
-	var raw map[string]grokAuthEntry
+	var raw map[string]GrokAuthEntry
 	if err := json.Unmarshal(data, &raw); err != nil {
-		return grokAuthEntry{}, fmt.Errorf("parse grok auth: %w", err)
+		return GrokAuthEntry{}, fmt.Errorf("parse grok auth: %w", err)
 	}
 	if len(raw) == 0 {
-		return grokAuthEntry{}, fmt.Errorf("grok auth file has no entries")
+		return GrokAuthEntry{}, fmt.Errorf("grok auth file has no entries")
 	}
 
 	for _, entry := range raw {
@@ -80,10 +80,10 @@ func loadGrokAuthEntry(path string) (grokAuthEntry, error) {
 			return entry, nil
 		}
 	}
-	return grokAuthEntry{}, fmt.Errorf("grok auth file has no OIDC entry")
+	return GrokAuthEntry{}, fmt.Errorf("grok auth file has no OIDC entry")
 }
 
-func grokEntryToAuthStore(entry grokAuthEntry) (openclawAuthProfileStore, error) {
+func grokEntryToAuthStore(entry GrokAuthEntry) (openclawAuthProfileStore, error) {
 	if entry.Key == "" {
 		return openclawAuthProfileStore{}, fmt.Errorf("grok auth entry is missing access token")
 	}

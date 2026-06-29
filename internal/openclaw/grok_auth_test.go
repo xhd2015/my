@@ -8,7 +8,7 @@ import (
 )
 
 func TestGrokEntryToAuthStore(t *testing.T) {
-	entry := grokAuthEntry{
+	entry := GrokAuthEntry{
 		Key:          "access-token",
 		RefreshToken: "refresh-token",
 		ExpiresAt:    time.Now().Add(time.Hour).Format(time.RFC3339Nano),
@@ -41,7 +41,7 @@ func TestGrokEntryToAuthStore(t *testing.T) {
 
 func TestWriteAuthProfileStore(t *testing.T) {
 	dir := t.TempDir()
-	entry := grokAuthEntry{
+	entry := GrokAuthEntry{
 		Key:          "access-token",
 		RefreshToken: "refresh-token",
 		ExpiresAt:    time.Now().Add(time.Hour).Format(time.RFC3339Nano),
@@ -75,9 +75,9 @@ func TestLoadGrokAuthEntryFromFile(t *testing.T) {
 		t.Fatalf("write fixture: %v", err)
 	}
 
-	entry, err := loadGrokAuthEntry(path)
+	entry, err := LoadGrokAuthEntry(path)
 	if err != nil {
-		t.Fatalf("loadGrokAuthEntry() error = %v", err)
+		t.Fatalf("LoadGrokAuthEntry() error = %v", err)
 	}
 	if entry.Key != "jwt-access" {
 		t.Fatalf("key = %q", entry.Key)

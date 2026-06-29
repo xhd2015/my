@@ -28,7 +28,7 @@ func runImportLocalGrok(dataDir, containerName string) int {
 		return 1
 	}
 
-	grokAuthPath, err := resolveGrokAuthPath()
+	grokAuthPath, err := ResolveGrokAuthPath()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		return 1
@@ -36,7 +36,7 @@ func runImportLocalGrok(dataDir, containerName string) int {
 
 	printImportLocalGrokPlan(absPath, grokAuthPath, containerName)
 
-	entry, err := loadGrokAuthEntry(grokAuthPath)
+	entry, err := LoadGrokAuthEntry(grokAuthPath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		return 1
